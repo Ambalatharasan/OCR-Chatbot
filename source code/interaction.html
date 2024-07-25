@@ -1,0 +1,25 @@
+<div id="chatbot">
+    <h2>Chat with us</h2>
+    <form>
+        <input type="text" id="message" placeholder="Type your message...">
+        <button type="submit">Send</button>
+    </form>
+    <div id="response"></div>
+</div>
+
+<script>
+    // Send the user's message to the Flask app when the form is submitted
+    document.getElementById('form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var message = document.getElementById('message').value;
+        fetch('/chat', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({message: message})
+    }).then(function(response) {
+        return response.json();
+    }).then(function(data) {
+        document.getElementById('response').innerHTML = data.response;
+    });
+    });
+</script>
